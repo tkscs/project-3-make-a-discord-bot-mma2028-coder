@@ -8,7 +8,6 @@ Instead, modify the functions in `my_bot.py`
 import discord
 from secret import my_discord_token, my_bot_channel
 import my_bot
-
 client = discord.Client(intents=discord.Intents.all())
 
 @client.event
