@@ -2,6 +2,9 @@ import secret
 from openai import OpenAI
 import os
 import random
+my_openai_key = secret.my_openai_key
+desired_words = 2000
+max_token_limit = int(desired_words * 1.4)
 
 jokes = [
     "why did the chicken cross the road? It wanted to go to the other side",
@@ -38,21 +41,17 @@ def replace_vowels(text):
     return new_text
 
 
-my_openai_key = secret.my_openai_key
-desired_words = 2000
-max_token_limit = int(desired_words * 1.4)
-
 client = OpenAI(api_key=my_openai_key)
 
 def get_ai_response(user_message, user_name):
     try:
         response = client.responses.create(
             model="gpt-4.1-mini", 
-            input=f"{user_name} says: {user_message}"
+            input=f"{user_name} says: {user_message}",
+            max_tokens=max_token_limit
     
         )
-        max_tokens = max_token_limit
-        return (response.output_text or "No response from AI.").strip()
+        return (response.output_text).strip()
         
             
 
@@ -71,10 +70,14 @@ def respond(user_message, user_name):
       return random_number()
     if "dice" in user_message:
        return roll_dice()
+    if "joke" in user_message:
+       return tell_joke()
     if "bye" in user_message:
        return "bye"
     if "how are you" in user_message:
         return "I am your chatbot"
+    if "what do you do" in user_message:
+        return "I can give you answers for anything, tell you a joke, give you a random number betwen 1 and 100, roll a dice for you, and more"
     return get_ai_response(user_message, user_name)
 def should_i_respond(user_message, user_name):
 
