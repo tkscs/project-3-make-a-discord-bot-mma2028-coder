@@ -4,7 +4,6 @@ import os
 import random
 my_openai_key = secret.my_openai_key
 desired_words = 2000
-max_token_limit = int(desired_words * 1.4)
 
 jokes = [
     "why did the chicken cross the road? It wanted to go to the other side",
@@ -47,8 +46,7 @@ def get_ai_response(user_message, user_name):
     try:
         response = client.responses.create(
             model="gpt-4.1-mini", 
-            input=f"{user_name} says: {user_message}",
-            max_tokens=max_token_limit
+            input=f"{user_name} says: {user_message}"
     
         )
         return (response.output_text).strip()
